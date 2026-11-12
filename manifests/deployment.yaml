@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    alpha.image.policy.openshift.io/resolve-names: "*"
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"app:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"app\")].image","pause":"false"}]
+  name: dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: miniprojekti
+  template:
+    metadata:
+      labels:
+        app: miniprojekti
+    spec:
+      containers:
+        - name: app
+          image: app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5001
+          envFrom:
+            - configMapRef:
+                name: config
+            - secretRef:
+                name: secret
+          volumeMounts:
+            - mountPath: /app/data
+              name: data
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+            requests:
+              memory: "50Mi"
+              cpu: "50m"
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: claim

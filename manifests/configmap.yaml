@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+data:
+  DATABASE_URL: sqlite:////app/data/database.db
+  TEST_ENV: "false"
