@@ -1,5 +1,8 @@
-CREATE TABLE todos (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  content TEXT NOT NULL,
-  done BOOLEAN DEFAULT FALSE
-)
+CREATE TABLE books (
+  id INTEGER PRIMARY KEY,
+  citation_key TEXT NOT NULL UNIQUE,
+  author TEXT NOT NULL,
+  title TEXT NOT NULL,
+  publishing_year INTEGER NOT NULL,
+  publisher TEXT NOT NULL
+);
