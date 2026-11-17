@@ -13,3 +13,4 @@ possu.sh
 secret.env
 playwright-log.txt
 .pytest_cache/
+venv/
