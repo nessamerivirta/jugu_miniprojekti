@@ -23,7 +23,8 @@ def book_creation():
     publishing_year = request.form.get("publishing_year")
     publisher = request.form.get("publisher")
 
-    if not citation_key or author or title or publishing_year or publisher:
+    if not citation_key or not author or not title or not publishing_year or not publisher:
+        print("Validation failed!")
         flash("Fill in all the fields")
         return redirect("/new_book")
 
