@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <title>Kirjaviittaukset</title>
+</head>
+<body>
+
+  {% if books %}
+    <table border="1">
+      <tr>
+        <th>Avain</th>
+        <th>Tekijä</th>
+        <th>Teos</th>
+        <th>Vuosi</th>
+        <th>Kustantaja</th>
+      </tr>
+      {% for book in books %}
+        <tr>
+          <td>{{ book.citation_key }}</td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.title }}</td>
+          <td>{{ book.publishing_year }}</td>
+          <td>{{ book.publisher }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>Ei kirjoja vielä.</p>
+  {% endif %}
+</body>
+</html>

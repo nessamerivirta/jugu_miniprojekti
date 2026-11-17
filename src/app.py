@@ -2,7 +2,7 @@ from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
 from repositories.todo_repository import get_todos, set_done
 from config import app, test_env
-from repositories.book_repository import create_book
+from repositories.book_repository import create_book, get_books
 from entities.book import Book
 
 @app.route("/")
@@ -38,6 +38,11 @@ def book_creation():
     except Exception as error:
         flash(str(error))
         return  redirect("/new_book")
+
+@app.route("/view_books", methods=["GET", "POST"])
+def view_books():
+    all_books = get_books()
+    return render_template("books.html", books=all_books)
 
 @app.route("/toggle_todo/<todo_id>", methods=["POST"])
 def toggle_todo(todo_id):
