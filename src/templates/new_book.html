@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Add a new book
+{% endblock %}
+
+{% block body %}
+
+<h2>Add a new book</h2>
+
+<form action="/create_book" method="post">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  <label for="citation_key">Citation key:</label>
+  <input type="text" name="citation_key">
+  <br>
+
+  <label for="author">Author:</label>
+  <input type="text" name="author">
+  <br>
+
+  <label for="title">Title:</label>
+  <input type="text" name="title">
+  <br>
+
+  <label for="publishing_year">Publishing year:</label>
+  <input type="text" name="publishing_year">
+  <br>
+
+  <label for="publisher">Publisher:</label>
+  <input type="text" name="publisher">
+  <br>
+
+  <button type="submit">
+    Create
+  </button>
+</form>
+
+{% endblock %}
