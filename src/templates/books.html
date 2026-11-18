@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Kirjaviittaukset</title>
+  <title>Book references</title>
 </head>
 <body>
 
   {% if books %}
     <table border="1">
       <tr>
-        <th>Avain</th>
-        <th>Tekijä</th>
-        <th>Teos</th>
-        <th>Vuosi</th>
-        <th>Kustantaja</th>
+        <th>Citation key</th>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Publishing year</th>
+        <th>Publisher</th>
       </tr>
       {% for book in books %}
         <tr>
@@ -26,7 +26,7 @@
       {% endfor %}
     </table>
   {% else %}
-    <p>Ei kirjoja vielä.</p>
+    <p>No books added yet.</p>
   {% endif %}
 </body>
 </html>
