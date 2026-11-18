@@ -7,9 +7,7 @@ from entities.book import Book
 
 @app.route("/")
 def index():
-    todos = get_todos()
-    unfinished = len([todo for todo in todos if not todo.done])
-    return render_template("index.html", todos=todos, unfinished=unfinished) 
+    return redirect("/view_books")
 
 @app.route("/new_book")
 def new_book():
@@ -39,7 +37,7 @@ def book_creation():
     try:
         # TODO: validate_book(content)
         create_book(book)
-        return redirect("/")
+        return redirect("/view_books")
     except Exception as error:
         flash(str(error))
         return  redirect("/new_book")
