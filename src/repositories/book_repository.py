@@ -17,3 +17,11 @@ def create_book(book):
         "publisher": book.publisher
     })
     db.session.commit()
+
+def get_books():
+    sql = text("""
+        SELECT id, citation_key, author, title, publishing_year, publisher
+        FROM books
+        ORDER BY author, publishing_year
+    """)
+    return db.session.execute(sql).fetchall()

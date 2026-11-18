@@ -1,30 +1,51 @@
 from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
-from repositories.todo_repository import get_todos, create_todo, set_done
+from repositories.todo_repository import get_todos, set_done
 from config import app, test_env
-from util import validate_todo
+from repositories.book_repository import create_book, get_books
+from entities.book import Book
 
 @app.route("/")
 def index():
-    todos = get_todos()
-    unfinished = len([todo for todo in todos if not todo.done])
-    return render_template("index.html", todos=todos, unfinished=unfinished) 
+    return redirect("/view_books")
 
-@app.route("/new_todo")
-def new():
-    return render_template("new_todo.html")
+@app.route("/new_book")
+def new_book():
+    return render_template("new_book.html") # TODO: create html
 
-@app.route("/create_todo", methods=["POST"])
-def todo_creation():
-    content = request.form.get("content")
+@app.route("/create_book", methods=["POST"])
+def book_creation():
+    citation_key = request.form.get("citation_key")
+    author = request.form.get("author")
+    title = request.form.get("title")
+    publishing_year = request.form.get("publishing_year")
+    publisher = request.form.get("publisher")
+
+    if not citation_key or not author or not title or not publishing_year or not publisher:
+        print("Validation failed!")
+        flash("Fill in all the fields")
+        return redirect("/new_book")
+
+    book = Book(
+        citation_key,
+        author,
+        title,
+        publishing_year,
+        publisher
+    )
 
     try:
-        validate_todo(content)
-        create_todo(content)
-        return redirect("/")
+        # TODO: validate_book(content)
+        create_book(book)
+        return redirect("/view_books")
     except Exception as error:
         flash(str(error))
-        return  redirect("/new_todo")
+        return  redirect("/new_book")
+
+@app.route("/view_books", methods=["GET", "POST"])
+def view_books():
+    all_books = get_books()
+    return render_template("books.html", books=all_books)
 
 @app.route("/toggle_todo/<todo_id>", methods=["POST"])
 def toggle_todo(todo_id):
