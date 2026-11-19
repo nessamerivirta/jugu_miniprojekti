@@ -11,7 +11,7 @@ def index():
 
 @app.route("/new_book")
 def new_book():
-    return render_template("new_book.html") # TODO: create html
+    return render_template("new_book.html")
 
 @app.route("/create_book", methods=["POST"])
 def book_creation():
@@ -46,6 +46,10 @@ def book_creation():
 def view_books():
     all_books = get_books()
     return render_template("books.html", books=all_books)
+
+@app.route("/edit_reference", methods=["GET", "POST"])
+def edit_reference():
+    pass
 
 @app.route("/toggle_todo/<todo_id>", methods=["POST"])
 def toggle_todo(todo_id):
