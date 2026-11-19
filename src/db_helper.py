@@ -40,8 +40,10 @@ def setup_db():
   with open(schema_path, 'r') as f:
     schema_sql = f.read().strip()
   
-  sql = text(schema_sql)
-  db.session.execute(sql)
+  for statement in schema_sql.split(";"):
+    if statement.strip():
+        db.session.execute(text(statement))
+
   db.session.commit()
 
 if __name__ == "__main__":
