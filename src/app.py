@@ -1,17 +1,28 @@
 from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
-from repositories.todo_repository import get_todos, set_done
+from repositories.todo_repository import set_done
 from config import app, test_env
 from repositories.book_repository import create_book, get_books
+from repositories.reference_repository import create_reference, get_references
 from entities.book import Book
 
 @app.route("/")
 def index():
-    return redirect("/view_books")
+    return redirect("/view_references")
+
+@app.route("/view_references", methods=["GET", "POST"])
+def view_references():
+    all_references = get_references()
+    return render_template("references.html", references=all_references)
+
+@app.route("/view_books", methods=["GET", "POST"])
+def view_books():
+    all_books = get_books()
+    return render_template("books.html", books=all_books)
 
 @app.route("/new_book")
 def new_book():
-    return render_template("new_book.html") # TODO: create html
+    return render_template("new_book.html")
 
 @app.route("/create_book", methods=["POST"])
 def book_creation():
@@ -42,10 +53,6 @@ def book_creation():
         flash(str(error))
         return  redirect("/new_book")
 
-@app.route("/view_books", methods=["GET", "POST"])
-def view_books():
-    all_books = get_books()
-    return render_template("books.html", books=all_books)
 
 @app.route("/toggle_todo/<todo_id>", methods=["POST"])
 def toggle_todo(todo_id):
