@@ -48,7 +48,7 @@ def book_creation():
     try:
         # TODO: validate_book(content)
         create_book(book)
-        return redirect("/view_books")
+        return redirect("/view_references")
     except Exception as error:
         flash(str(error))
         return  redirect("/new_book")
