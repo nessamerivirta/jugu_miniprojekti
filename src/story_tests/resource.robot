@@ -24,8 +24,8 @@ Reset Todos
 
 *** Test Cases ***
 At start there are no todos
-    # Go To  ${HOME_URL}
-    Go To  ${SERVER}
+    Go To  ${HOME_URL}
+    # Go To  ${SERVER}
     Get Title  ==  Todo app
     Get Text  body  *=  things still unfinished: 0
 
