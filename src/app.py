@@ -52,6 +52,7 @@ def toggle_todo(todo_id):
     set_done(todo_id)
     return redirect("/")
 
+
 # testausta varten oleva reitti
 if test_env:
     @app.route("/reset_db")
