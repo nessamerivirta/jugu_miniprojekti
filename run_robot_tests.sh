@@ -12,9 +12,13 @@ uv run python3 src/index.py &
 
 echo "started Flask server"
 
+counter=0
 # odetetaan, että palvelin on valmiina ottamaan vastaan pyyntöjä
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:5001)" != "200" ]];
   do sleep 1;
+  if counter > 20:
+    break
+  counter += 1
 done
 
 echo "Flask server is ready"
