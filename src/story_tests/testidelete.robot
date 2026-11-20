@@ -1,5 +1,5 @@
 *** Settings ***
-Resource         testidelete.robot
+Resource         resource.robot
 Suite Setup      Open And Configure Browser
 Suite Teardown   Close Browser
 
