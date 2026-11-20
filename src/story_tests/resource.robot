@@ -1,6 +1,6 @@
 *** Settings ***
 # Library  Browser
-Resource  resource.robot
+# Resource  resource.robot
 Suite Setup      Open And Configure Browser
 Suite Teardown   Close Browser
 
