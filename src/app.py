@@ -2,7 +2,7 @@ from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
 from repositories.todo_repository import get_todos, set_done
 from config import app, test_env
-from repositories.book_repository import create_book, get_books
+from repositories.book_repository import create_book, get_books, delete_book
 from entities.book import Book
 
 @app.route("/")
@@ -52,6 +52,10 @@ def toggle_todo(todo_id):
     set_done(todo_id)
     return redirect("/")
 
+@app.route("/delete_book/<int:book_id>", methods=["POST"])
+def delete_book_route(book_id):
+    delete_book(book_id)
+    return redirect("/view_books")
 
 # testausta varten oleva reitti
 if test_env:
