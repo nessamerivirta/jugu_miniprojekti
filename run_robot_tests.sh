@@ -15,7 +15,7 @@ echo "started Flask server"
 
 counter=0
 # odetetaan, että palvelin on valmiina ottamaan vastaan pyyntöjä
-while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:5001)" != "200" ]];
+while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:5001)" != "302" ]];
   do sleep 1;
   if [ "$counter" -gt 30 ]; then
     break
