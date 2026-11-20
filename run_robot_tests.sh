@@ -16,9 +16,11 @@ counter=0
 # odetetaan, että palvelin on valmiina ottamaan vastaan pyyntöjä
 while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:5001)" != "200" ]];
   do sleep 1;
-  if counter > 20:
+  if [ "$counter" -gt 20 ]; then
     break
-  counter += 1
+  fi
+  echo "$counter"
+  ((counter++))
 done
 
 echo "Flask server is ready"
