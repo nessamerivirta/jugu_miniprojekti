@@ -1,8 +1,5 @@
 *** Settings ***
 Library  Browser
-# Resource  resource.robot
-# Suite Setup      Open And Configure Browser
-# Suite Teardown   Close Browser
 
 *** Variables ***
 ${SERVER}     localhost:5001
