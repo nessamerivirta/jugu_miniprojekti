@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+References
+{% endblock %}
+
+{% block body %}
+
+<h2>References</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>General references</title>
+</head>
+<body>
+
+  {% if references %}
+    <p>Number of references: {{ references|length }}</p>
+
+    <table border="1">
+      <tr>
+        <th>Type</th>
+        <th>Citation key</th>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Publishing year</th>
+      </tr>
+      {% for reference in references %}
+        <tr>
+          <td>{{ reference.type }}</td>
+          <td>{{ reference.citation_key }}</td>
+          <td>{{ reference.author }}</td>
+          <td>{{ reference.title }}</td>
+          <td>{{ reference.publishing_year }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No references added yet.</p>
+  {% endif %}
+  <a href="/new_book">Add new book</a> <!-- TODO: new_reference HTML -->
+</body>
+</html>
+
+{% endblock %}
