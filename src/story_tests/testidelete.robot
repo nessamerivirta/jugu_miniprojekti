@@ -2,6 +2,7 @@
 Resource         resource.robot
 Suite Setup      Open And Configure Browser
 Suite Teardown   Close Browser
+Test Setup       Reset Database
 
 *** Test Cases ***
 User can delete a book
