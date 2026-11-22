@@ -19,5 +19,5 @@ Open And Configure Browser
     New Context
     New Page  about:blank
 
-Reset Todos
+Reset Database
     Go To  ${RESET_URL}
