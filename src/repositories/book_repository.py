@@ -1,28 +1,38 @@
 from config import db
 from sqlalchemy import text
+from repositories.reference_repository import create_reference
 
 def create_book(book):
+    create_reference(book)
+
     sql = text("""
         INSERT INTO books
-        (citation_key, author, title, publishing_year, publisher)
-        VALUES
-        (:citation_key, :author, :title, :publishing_year, :publisher)
+        (reference_id, publisher)
+        VALUES (
+        (SELECT id FROM references_table WHERE citation_key = :citation_key), :publisher
+        )
     """)
 
     db.session.execute(sql, {
         "citation_key": book.citation_key,
-        "author": book.author,
-        "title": book.title,
-        "publishing_year": book.publishing_year,
         "publisher": book.publisher
     })
     db.session.commit()
 
 def get_books():
     sql = text("""
-        SELECT id, citation_key, author, title, publishing_year, publisher
+        SELECT
+            references_table.id,
+            references_table.citation_key,
+            references_table.author,
+            references_table.title,
+            references_table.publishing_year,
+            books.publisher
         FROM books
-        ORDER BY author, publishing_year
+        JOIN references_table
+            ON books.reference_id = references_table.id
+        ORDER BY references_table.author,
+                 references_table.publishing_year
     """)
     return db.session.execute(sql).fetchall()
 

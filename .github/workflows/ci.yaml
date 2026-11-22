@@ -6,6 +6,7 @@ env:
   SECRET_KEY: sekret
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
   pull_request:

@@ -478,6 +478,9 @@ dependencies = [
     { name = "getenv" },
     { name = "python-dotenv" },
     { name = "requests" },
+    { name = "robotframework" },
+    { name = "robotframework-browser" },
+    { name = "robotframework-requests" },
 ]
 
 [package.dev-dependencies]
@@ -495,6 +498,9 @@ requires-dist = [
     { name = "getenv", specifier = ">=0.2.0,<0.3.0" },
     { name = "python-dotenv", specifier = ">=1.2.1,<2.0.0" },
     { name = "requests", specifier = ">=2.32.5,<3.0.0" },
+    { name = "robotframework", specifier = ">=7.5" },
+    { name = "robotframework-browser", specifier = ">=20.6.0" },
+    { name = "robotframework-requests", specifier = ">=0.9.7" },
 ]
 
 [package.metadata.requires-dev]
@@ -745,6 +751,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/48/58/dd3fb5cfd3ff1659e778c5fba61c54451eb3c9c1bca5cea1c7925bf163d1/robotframework_pythonlibcore-4.6.0.tar.gz", hash = "sha256:c45acbdf781b35a5cbac8e1c019fedab87d99f34ff29a6c99b774fbd95313f27", size = 14196, upload-time = "2026-05-14T19:27:21.871Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/dc/b5/188f79e1d6ba281880a6817156d2fa8b89a1e034f6be0390425f4fb2969b/robotframework_pythonlibcore-4.6.0-py3-none-any.whl", hash = "sha256:db8d707961a0b83a5497d9c02b8919805e47b73907d0a588c79593518dc133a7", size = 20330, upload-time = "2026-05-14T19:27:20.595Z" },
+]
+
+[[package]]
+name = "robotframework-requests"
+version = "0.9.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+    { name = "robotframework" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/61/e2/b17b940985e7b35f53767d908897870fcf4e143a2a7c2da76d152e4abc4c/robotframework-requests-0.9.7.tar.gz", hash = "sha256:c2a2839813e1dc6b299e7d336314c9982c225c5b7e001ec893dc3555c6a95740", size = 19404, upload-time = "2024-04-07T22:48:08.471Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cd/18/03ef4d1132f50b55220af5308db91e1cc5481b8b063cac5fafa625b00f64/robotframework_requests-0.9.7-py3-none-any.whl", hash = "sha256:96315066318778cbcf5523cdb6175f5a0b8fec33275030a20dade3a3d98aeca2", size = 21055, upload-time = "2024-04-07T22:48:06.617Z" },
 ]
 
 [[package]]
