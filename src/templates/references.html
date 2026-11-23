@@ -25,6 +25,7 @@ References
         <th>Author</th>
         <th>Title</th>
         <th>Publishing year</th>
+        <th>Delete</th>
       </tr>
       {% for reference in references %}
         <tr>
@@ -33,6 +34,11 @@ References
           <td>{{ reference.author }}</td>
           <td>{{ reference.title }}</td>
           <td>{{ reference.publishing_year }}</td>
+          <td>
+            <form action="/delete_reference/{{ reference.id }}" method="POST">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
         </tr>
       {% endfor %}
     </table>

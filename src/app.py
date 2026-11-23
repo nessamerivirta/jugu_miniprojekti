@@ -2,8 +2,8 @@ from flask import redirect, render_template, request, jsonify, flash
 from db_helper import reset_db
 from repositories.todo_repository import set_done
 from config import app, test_env
-from repositories.book_repository import create_book, get_books, delete_book
-from repositories.reference_repository import create_reference, get_references
+from repositories.book_repository import create_book, get_books
+from repositories.reference_repository import create_reference, get_references, delete_reference
 from entities.book import Book
 
 @app.route("/")
@@ -54,10 +54,10 @@ def book_creation():
         return  redirect("/new_book")
 
 
-@app.route("/delete_book/<int:book_id>", methods=["POST"])
-def delete_book_route(book_id):
-    delete_book(book_id)
-    return redirect("/view_books")
+@app.route("/delete_reference/<int:reference_id>", methods=["POST"])
+def delete_reference_route(reference_id):
+    delete_reference(reference_id)
+    return redirect("/view_references")
     
 
 # testausta varten oleva reitti

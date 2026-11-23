@@ -23,11 +23,6 @@
           <td>{{ book.title }}</td>
           <td>{{ book.publishing_year }}</td>
           <td>{{ book.publisher }}</td>
-          <td>
-            <form action="/delete_book/{{ book.id }}" method="POST">
-            <button type="submit">Delete book</button>
-            </form>
-          </td>
         </tr>
       {% endfor %}
     </table>
