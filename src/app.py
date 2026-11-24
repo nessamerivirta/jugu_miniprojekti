@@ -56,7 +56,9 @@ def book_creation():
 
 @app.route("/edit_reference", methods=["GET", "POST"])
 def edit_reference():
-    pass
+    reference_item = get_references()
+    return render_template("edit_reference.html", reference_item=reference_item)
+    
 
 @app.route("/toggle_todo/<todo_id>", methods=["POST"])
 def toggle_todo(todo_id):

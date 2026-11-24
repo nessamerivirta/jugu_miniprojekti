@@ -33,6 +33,11 @@ References
           <td>{{ reference.author }}</td>
           <td>{{ reference.title }}</td>
           <td>{{ reference.publishing_year }}</td>
+          <td>
+            <form action="/edit_reference" method="POST">
+            <button type="submit">Edit item</button>
+            </form>
+          </td>
         </tr>
       {% endfor %}
     </table>
