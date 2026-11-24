@@ -25,3 +25,11 @@ def get_references():
         ORDER BY author, publishing_year
     """)
     return db.session.execute(sql).fetchall()
+
+def delete_reference(reference_id):
+    sql = text("""
+        DELETE FROM references_table
+        WHERE id = :reference_id
+    """)
+    db.session.execute(sql, {"reference_id": reference_id})
+    db.session.commit()
