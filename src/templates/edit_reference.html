@@ -14,8 +14,12 @@ Edit reference
   <title>Edit reference</title>
 </head>
 <body>
-
-  <a href="/new_book">Add new book</a> <!-- TODO: new_reference HTML -->
+  <p>{{ reference.type }}</p>
+  <p>{{ reference.citation_key }}</p>
+  <p>{{ reference.author }}</p>
+  <p>{{ reference.title }}</p>
+  <p>{{ reference.publishing_year }}</p>
+  <a href="/view_references">Confirm changes</a>
 </body>
 </html>
 

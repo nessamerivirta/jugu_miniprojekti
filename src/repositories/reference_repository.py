@@ -26,6 +26,14 @@ def get_references():
     """)
     return db.session.execute(sql).fetchall()
 
+def get_reference(reference_id):
+    sql = text("""
+        SELECT id, type, citation_key, title, author, publishing_year
+        FROM references_table
+        WHERE id = :reference_id
+        """)
+    return db.session.execute(sql, {"reference_id": reference_id}).fetchone()
+
 def delete_reference(reference_id):
     sql = text("""
         DELETE FROM references_table

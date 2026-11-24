@@ -3,7 +3,7 @@ from db_helper import reset_db
 from repositories.todo_repository import set_done
 from config import app, test_env
 from repositories.book_repository import create_book, get_books
-from repositories.reference_repository import create_reference, get_references, delete_reference
+from repositories.reference_repository import create_reference, get_references, get_reference, delete_reference
 from entities.book import Book
 
 @app.route("/")
@@ -53,10 +53,13 @@ def book_creation():
         flash(str(error))
         return  redirect("/new_book")
 
-@app.route("/edit_reference", methods=["GET", "POST"])
-def edit_reference():
-    reference_item = get_references()
-    return render_template("edit_reference.html", reference_item=reference_item)
+@app.route("/edit_reference/<int:reference_id>", methods=["GET", "POST"])
+def edit_reference(reference_id):
+    reference = get_reference(reference_id)
+    if reference is None:
+        return "Reference not found", 404
+
+    return render_template("edit_reference.html", reference=reference)
     
 @app.route("/delete_reference/<int:reference_id>", methods=["POST"])
 def delete_reference_route(reference_id):
