@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>InProceeding references</title>
+</head>
+<body>
+
+  {% if inproceedings %}
+    <table border="1">
+      <tr>
+        <th>Citation key</th>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Publishing year</th>
+        <th>Book title</th>
+        <th>Actions</th>
+      </tr>
+      {% for book in books %}
+        <tr>
+          <td>{{ inproceeding.citation_key }}</td>
+          <td>{{ inproceeding.author }}</td>
+          <td>{{ inproceeding.title }}</td>
+          <td>{{ inproceeding.publishing_year }}</td>
+          <td>{{ inproceeding.booktitle }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No inproceedings added yet.</p>
+  {% endif %}
+  <a href="/new_inproceeding">Add new inproceeding</a>
+</body>
+</html>

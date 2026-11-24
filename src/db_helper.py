@@ -29,7 +29,7 @@ def setup_db():
   if len(tables_in_db) > 0:
     print(f"Tables exist, dropping: {', '.join(tables_in_db)}")
 
-    for table in ["books", "references_table"]: #remove tables in order
+    for table in ["books", "inproceedings", "references_table"]: #remove tables in order
       if table in tables_in_db:
         sql = text(f"DROP TABLE {table}")
         db.session.execute(sql)
