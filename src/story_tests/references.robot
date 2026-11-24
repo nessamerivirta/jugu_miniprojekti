@@ -63,6 +63,55 @@ Add new book link opens the correct page
     Click    text=Add new book
     Get Url    ==    ${HOME_URL}/new_book
 
+User can open edit page
+    Go To  ${HOME_URL}
+    Click  text=Add new book
+    Fill Text  [name="citation_key"]  robotedit
+    Fill Text  [name="author"]  Test Author
+    Fill Text  [name="title"]  Robot Test Book
+    Fill Text  [name="publishing_year"]  2026
+    Fill Text  [name="publisher"]  Test Publisher
+    Click  button >> text=Create
+
+    Get Text  body  *=  Number of references: 1
+    Get Text  body  *=  Robot Test Book
+
+    Click    button >> text=Edit
+    Get Url  *=  ${HOME_URL}/edit_reference/1
+    Get Text  body  *=  Edit reference
+    Get Attribute  [name="citation_key"]  value  ==  robotedit
+    Get Attribute  [name="author"]  value  ==  Test Author
+    Get Attribute  [name="title"]  value  ==  Robot Test Book
+    Get Attribute  [name="publishing_year"]  value  ==  2026
+    Get Attribute  [name="publisher"]  value  ==  Test Publisher
+
+User can edit reference
+    Go To  ${HOME_URL}
+    Click  text=Add new book
+    Fill Text  [name="citation_key"]  roboteditbefore
+    Fill Text  [name="author"]  Original Author
+    Fill Text  [name="title"]  Original Book Title
+    Fill Text  [name="publishing_year"]  2020
+    Fill Text  [name="publisher"]  Original Publisher
+    Click  button >> text=Create
+
+    Click  button >> text=Edit
+    Fill Text  [name="citation_key"]  roboteditafter
+    Fill Text  [name="author"]  Updated Author
+    Fill Text  [name="title"]  Updated Book Title
+    Fill Text  [name="publishing_year"]  2024
+    Fill Text  [name="publisher"]  Updated Publisher
+    Click  button >> text=Save changes
+
+    Get Url  ==  ${HOME_URL}/view_references
+    Get Text  body  *=  roboteditafter
+    Get Text  body  *=  Updated Author
+    Get Text  body  *=  Updated Book Title
+    Get Text  body  *=  2024
+    Get Text  body  *=  Updated Publisher
+    Get Text  body  not contains  roboteditbefore
+    Get Text  body  not contains  Original Book Title
+
 User can delete a reference
     Go To  ${HOME_URL}
     Click  text=Add new book
