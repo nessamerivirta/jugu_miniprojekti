@@ -16,7 +16,7 @@ At the start there is add new book button
 After adding a book there is one book on the list
     Go To  ${HOME_URL}
     Click    text=Add new book
-    Fill Text  [name="citation_key"]  Test1
+    Fill Text  [name="citation_key"]  TestAddBook
     Fill Text  [name="author"]  Tester
     Fill Text  [name="title"]  Add book
     Fill Text  [name="publishing_year"]  2026
@@ -27,13 +27,13 @@ After adding a book there is one book on the list
 After adding a book its information is displayed
     Go To  ${HOME_URL}
     Click  text=Add new book
-    Fill Text  [name="citation_key"]  Test1
+    Fill Text  [name="citation_key"]  TestDisplayInformation
     Fill Text  [name="author"]  Tester
     Fill Text  [name="title"]  Add book
     Fill Text  [name="publishing_year"]  2026
     Fill Text  [name="publisher"]  Jess
     Click    button >> text=Create
-    Get Text  body  *=  Test1
+    Get Text  body  *=  TestDisplayInformation
     Get Text  body  *=  Tester
     Get Text  body  *=  Add book
     Get Text  body  *=  2026    
@@ -41,7 +41,7 @@ After adding a book its information is displayed
 After adding two books there are two references
     Go To    ${HOME_URL}
     Click    text=Add new book
-    Fill Text    [name="citation_key"]    Test1
+    Fill Text    [name="citation_key"]    TestTwoBooks
     Fill Text    [name="author"]    Tester
     Fill Text    [name="title"]    First book
     Fill Text    [name="publishing_year"]    2026
@@ -76,7 +76,8 @@ User can delete a reference
     Get Text  body  *=  Number of references: 1
     Get Text  body  *=  Robot Test Book
 
-    Click  //tr[td[contains(text(), 'robotdelete123')]]//button
+    Click    button >> text=Delete
+
 
     Get Text  body  not contains  Robot Test Book
     Get Text  body  *=  No references added yet.
