@@ -21,9 +21,13 @@ def create_reference(reference):
 
 def get_references():
     sql = text("""
-        SELECT id, type, citation_key, title, author, publishing_year
+        SELECT references_table.id, references_table.type,
+               references_table.citation_key, references_table.title,
+               references_table.author, references_table.publishing_year,
+               books.publisher
         FROM references_table
-        ORDER BY author, publishing_year
+        LEFT JOIN books ON books.reference_id = references_table.id
+        ORDER BY references_table.author, references_table.publishing_year
     """)
     return db.session.execute(sql).fetchall()
 
