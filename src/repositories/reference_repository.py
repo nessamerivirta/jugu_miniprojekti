@@ -1,5 +1,6 @@
 from config import db
 from sqlalchemy import text
+from sqlalchemy.exc import IntegrityError
 
 def create_reference(reference):
     sql = text("""
@@ -28,11 +29,51 @@ def get_references():
 
 def get_reference(reference_id):
     sql = text("""
-        SELECT id, type, citation_key, title, author, publishing_year
+        SELECT references_table.id, type, citation_key, title, author,
+               publishing_year, books.publisher
         FROM references_table
-        WHERE id = :reference_id
+        LEFT JOIN books ON books.reference_id = references_table.id
+        WHERE references_table.id = :reference_id
         """)
     return db.session.execute(sql, {"reference_id": reference_id}).fetchone()
+
+def update_reference(reference_id, reference, publisher=None):
+    sql = text("""
+        UPDATE references_table
+        SET type = :type,
+            citation_key = :citation_key,
+            author = :author,
+            title = :title,
+            publishing_year = :publishing_year
+        WHERE id = :reference_id
+    """)
+    try:
+        result = db.session.execute(sql, {
+            "reference_id": reference_id,
+            "type": reference["type"],
+            "citation_key": reference["citation_key"],
+            "author": reference["author"],
+            "title": reference["title"],
+            "publishing_year": reference["publishing_year"]
+        })
+
+        if result.rowcount == 0:
+            db.session.rollback()
+            return False
+
+        if publisher is not None:
+            db.session.execute(text("""
+                UPDATE books
+                SET publisher = :publisher
+                WHERE reference_id = :reference_id
+            """), {"reference_id": reference_id, "publisher": publisher})
+
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        raise
+
+    return True
 
 def delete_reference(reference_id):
     sql = text("""
