@@ -62,3 +62,21 @@ Add new book link opens the correct page
     Go To    ${HOME_URL}
     Click    text=Add new book
     Get Url    ==    ${HOME_URL}/new_book
+
+User can delete a reference
+    Go To  ${HOME_URL}
+    Click  text=Add new book
+    Fill Text  [name="citation_key"]  robotdelete123
+    Fill Text  [name="author"]  Test Author
+    Fill Text  [name="title"]  Robot Test Book
+    Fill Text  [name="publishing_year"]  2026
+    Fill Text  [name="publisher"]  Test Publisher
+    Click  button >> text=Create
+
+    Get Text  body  *=  Number of references: 1
+    Get Text  body  *=  Robot Test Book
+
+    Click  //tr[td[contains(text(), 'robotdelete123')]]//button
+
+    Get Text  body  not contains  Robot Test Book
+    Get Text  body  *=  No references added yet.

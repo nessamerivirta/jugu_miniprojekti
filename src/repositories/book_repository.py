@@ -35,11 +35,3 @@ def get_books():
                  references_table.publishing_year
     """)
     return db.session.execute(sql).fetchall()
-
-def delete_book(book_id):
-    sql = text("""
-        DELETE FROM books
-        WHERE id = :book_id
-    """)
-    db.session.execute(sql, {"book_id": book_id})
-    db.session.commit()
