@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = ON;
+
 CREATE TABLE references_table (
   id INTEGER PRIMARY KEY,
   type TEXT NOT NULL,
