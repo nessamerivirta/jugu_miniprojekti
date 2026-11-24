@@ -1,10 +1,11 @@
-from flask import redirect, render_template, request, jsonify, flash
+from flask import redirect, render_template, request, jsonify, flash, Response
 from db_helper import reset_db
 from repositories.todo_repository import set_done
 from config import app, test_env
 from repositories.book_repository import create_book, get_books
 from repositories.reference_repository import create_reference, get_references, delete_reference
 from entities.book import Book
+from bibtex_export import books_to_bibtex
 
 @app.route("/")
 def index():
@@ -58,7 +59,19 @@ def book_creation():
 def delete_reference_route(reference_id):
     delete_reference(reference_id)
     return redirect("/view_references")
-    
+
+@app.route("/export_bibtex")
+def export_bibtex():
+    books = get_books()
+    content = books_to_bibtex(books)
+
+    return Response(
+        content,
+        mimetype="text/plain",
+        headers={
+            "Content-Disposition": "attachment; filename=references.bib"
+        }
+    )
 
 # testausta varten oleva reitti
 if test_env:
