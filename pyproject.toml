@@ -28,3 +28,13 @@ dev = [
 
 [tool.uv]
 package = false
+
+[tool.pylint.main]
+ignore = [".venv", "venv", "instance"]
+
+[tool.pylint."messages control"]
+disable = [
+    "missing-module-docstring",
+    "missing-function-docstring",
+    "missing-class-docstring",
+]
