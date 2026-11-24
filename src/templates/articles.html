@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Article references</title>
+</head>
+<body>
+
+  {% if articles %}
+    <table border="1">
+      <tr>
+        <th>Citation key</th>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Journal</th>
+        <th>Publishing year</th>
+        <th>Volume</th>
+        <th>Pages</th>
+        <th>Actions</th>
+      </tr>
+      {% for article in articles %}
+        <tr>
+          <td>{{ article.citation_key }}</td>
+          <td>{{ article.author }}</td>
+          <td>{{ article.title }}</td>
+          <td>{{ article.journal }}</td>
+          <td>{{ article.publishing_year }}</td>
+          <td>{{ article.volume }}</td>
+          <td>{{ article.pages }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No articles added yet.</p>
+  {% endif %}
+  <a href="/new_article">Add new article</a>
+</body>
+</html>

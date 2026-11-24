@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block title %}
+References
+{% endblock %}
+
+{% block body %}
+
+<h2>References</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>General references</title>
+</head>
+<body>
+
+  {% if references %}
+    <p>Number of references: {{ references|length }}</p>
+
+    <table border="1">
+      <tr>
+        <th>Type</th>
+        <th>Citation key</th>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Publishing year</th>
+        <th>Delete</th>
+      </tr>
+      {% for reference in references %}
+        <tr>
+          <td>{{ reference.type }}</td>
+          <td>{{ reference.citation_key }}</td>
+          <td>{{ reference.author }}</td>
+          <td>{{ reference.title }}</td>
+          <td>{{ reference.publishing_year }}</td>
+          <td>
+            <form action="/delete_reference/{{ reference.id }}" method="POST">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No references added yet.</p>
+  {% endif %}
+  <a href="/new_book">Add new book</a> <!-- TODO: new_reference HTML -->
+  <p></p>
+  <a href="/export_bibtex">Export BibTeX</a>
+  <p></p>
+  <a href="/new_inproceeding">Add new inproceeding</a>
+</body>
+</html>
+
+{% endblock %}

@@ -1,19 +1,33 @@
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE references_table (
+  id INTEGER PRIMARY KEY,
+  type TEXT NOT NULL,
+  citation_key TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  author TEXT,
+  publishing_year INTEGER
+);
+
 CREATE TABLE books (
   id INTEGER PRIMARY KEY,
-  citation_key TEXT NOT NULL UNIQUE,
-  author TEXT NOT NULL,
-  title TEXT NOT NULL,
-  publishing_year INTEGER NOT NULL,
+  reference_id INTEGER NOT NULL UNIQUE
+    REFERENCES references_table(id) ON DELETE CASCADE,
   publisher TEXT NOT NULL
 );
 
 CREATE TABLE articles (
   id INTEGER PRIMARY KEY,
-  citation_key TEXT NOT NULL UNIQUE,
-  author TEXT NOT NULL,
-  title TEXT NOT NULL,
+  reference_id INTEGER NOT NULL UNIQUE
+    REFERENCES references_table(id) ON DELETE CASCADE,
   journal TEXT NOT NULL,
-  publishing_year INTEGER NOT NULL,
   volume TEXT NOT NULL,
   pages TEXT NOT NULL
+
+CREATE TABLE inproceedings (
+  id INTEGER PRIMARY KEY,
+  reference_id INTEGER NOT NULL UNIQUE
+    REFERENCES references_table(id) ON DELETE CASCADE,
+  proc_year INTEGER,
+  booktitle TEXT
 );

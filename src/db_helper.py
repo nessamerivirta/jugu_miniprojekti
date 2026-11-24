@@ -3,9 +3,11 @@ from sqlalchemy import text
 import os
 
 def reset_db():
-  print(f"Clearing contents from table books")
-  sql = text(f"DELETE FROM books")
-  db.session.execute(sql)
+  print(f"Clearing database tables")
+
+  db.session.execute(text(f"DELETE FROM references_table"))
+  db.session.execute(text(f"DELETE FROM books"))
+
   db.session.commit()
 
 def tables():
@@ -26,10 +28,12 @@ def setup_db():
   tables_in_db = tables()
   if len(tables_in_db) > 0:
     print(f"Tables exist, dropping: {', '.join(tables_in_db)}")
-    for table in tables_in_db:
-      sql = text(f"DROP TABLE {table}")
-      db.session.execute(sql)
-    db.session.commit()
+
+    for table in ["books", "inproceedings", "references_table"]: #remove tables in order
+      if table in tables_in_db:
+        sql = text(f"DROP TABLE {table}")
+        db.session.execute(sql)
+  db.session.commit()
 
   print("Creating database")
   
@@ -38,8 +42,10 @@ def setup_db():
   with open(schema_path, 'r') as f:
     schema_sql = f.read().strip()
   
-  sql = text(schema_sql)
-  db.session.execute(sql)
+  for statement in schema_sql.split(";"):
+    if statement.strip():
+        db.session.execute(text(statement))
+
   db.session.commit()
 
 if __name__ == "__main__":
