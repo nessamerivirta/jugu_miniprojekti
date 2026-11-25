@@ -125,8 +125,7 @@ User can delete a reference
     Get Text  body  *=  Number of references: 1
     Get Text  body  *=  Robot Test Book
 
-    Click    button >> text=Delete
-
+    Click  //tr[td[contains(text(), 'robotdelete123')]]//button[normalize-space()='Delete']
 
     Get Text  body  not contains  Robot Test Book
     Get Text  body  *=  No references added yet.

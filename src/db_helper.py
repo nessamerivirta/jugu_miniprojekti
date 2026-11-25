@@ -6,6 +6,7 @@ def reset_db():
   print(f"Clearing database tables")
 
   db.session.execute(text(f"DELETE FROM references_table"))
+  db.session.execute(text(f"DELETE FROM articles"))
   db.session.execute(text(f"DELETE FROM books"))
 
   db.session.commit()
@@ -29,7 +30,7 @@ def setup_db():
   if len(tables_in_db) > 0:
     print(f"Tables exist, dropping: {', '.join(tables_in_db)}")
 
-    for table in ["books", "inproceedings", "references_table"]: #remove tables in order
+    for table in ["books", "articles", "inproceedings", "references_table"]: #remove tables in order
       if table in tables_in_db:
         sql = text(f"DROP TABLE {table}")
         db.session.execute(sql)
