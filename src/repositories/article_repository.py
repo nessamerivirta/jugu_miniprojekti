@@ -30,8 +30,8 @@ def get_articles():
             references_table.author,
             references_table.title,
             references_table.publishing_year,
-            articles.journal
-            articles.volume
+            articles.journal,
+            articles.volume,
             articles.pages
         FROM articles
         JOIN references_table

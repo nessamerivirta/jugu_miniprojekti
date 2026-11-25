@@ -23,6 +23,7 @@ CREATE TABLE articles (
   journal TEXT NOT NULL,
   volume TEXT NOT NULL,
   pages TEXT NOT NULL
+);
 
 CREATE TABLE inproceedings (
   id INTEGER PRIMARY KEY,

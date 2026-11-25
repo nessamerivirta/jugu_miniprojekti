@@ -97,6 +97,7 @@ def article_creation():
         citation_key,
         author,
         title,
+        journal,
         publishing_year,
         volume,
         pages
