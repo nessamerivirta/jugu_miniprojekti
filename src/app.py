@@ -3,9 +3,12 @@ from db_helper import reset_db
 from repositories.todo_repository import set_done
 from config import app, test_env
 from repositories.book_repository import create_book, get_books
+from repositories.reference_repository import (
+    create_reference, get_references, get_reference, update_reference, delete_reference
+)
+from sqlalchemy.exc import IntegrityError
 from repositories.article_repository import create_article, get_articles
 from repositories.inproceeding_repository import create_inproceeding, get_inproceedings
-from repositories.reference_repository import create_reference, get_references, delete_reference
 from entities.book import Book
 from entities.article import Article
 from bibtex_export import books_to_bibtex
@@ -78,6 +81,50 @@ def book_creation():
         flash(str(error))
         return  redirect("/new_book")
 
+@app.route("/edit_reference/<int:reference_id>", methods=["GET", "POST"])
+def edit_reference(reference_id):
+    reference = get_reference(reference_id)
+    if reference is None:
+        return "Reference not found", 404
+    if request.method == "POST":
+        updated_reference = {
+            "type": request.form.get("type", "").strip(),
+            "citation_key": request.form.get("citation_key", "").strip(),
+            "author": request.form.get("author", "").strip() or None,
+            "title": request.form.get("title", "").strip(),
+        }
+        publishing_year = request.form.get("publishing_year", "").strip()
+        publisher = request.form.get("publisher", "").strip()
+
+        if not updated_reference["type"] or not updated_reference["citation_key"] or not updated_reference["title"]:
+            flash("Type, citation key, and title are required.")
+            return render_template("edit_reference.html", reference=reference), 400
+
+        try:
+            updated_reference["publishing_year"] = int(publishing_year) if publishing_year else None
+        except ValueError:
+            flash("Publishing year must be a number.")
+            return render_template("edit_reference.html", reference=reference), 400
+
+        if reference.publisher is not None and not publisher:
+            flash("Publisher is required.")
+            return render_template("edit_reference.html", reference=reference), 400
+
+        try:
+            if not update_reference(
+                reference_id,
+                updated_reference,
+                publisher if reference.publisher is not None else None
+            ):
+                return "Reference not found", 404
+        except IntegrityError:
+            flash("A reference with that citation key already exists.")
+            return render_template("edit_reference.html", reference=reference), 409
+
+        return redirect("/view_references")
+
+    return render_template("edit_reference.html", reference=reference)
+      
 @app.route("/create_article", methods=["POST"])
 def article_creation():
     citation_key = request.form.get("citation_key")
@@ -139,9 +186,7 @@ def inproceeding_creation():
     except Exception as errorproc:
         flash(str(errorproc))
         return  redirect("/new_inproceeding")
-
-
-
+    
 @app.route("/delete_reference/<int:reference_id>", methods=["POST"])
 def delete_reference_route(reference_id):
     delete_reference(reference_id)
