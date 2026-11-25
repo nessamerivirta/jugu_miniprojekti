@@ -15,5 +15,5 @@ User can delete a book
 
     Get Text  body  *=  Robot Test Book
 
-    Click  //tr[td[contains(text(), 'robotdelete123')]]//button
+    Click  //tr[td[contains(text(), 'robotdelete123')]]//button[normalize-space()='Delete']
     Get Text  body  not contains  Robot Test Book

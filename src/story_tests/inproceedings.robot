@@ -16,7 +16,7 @@ User can delete an inproceeding
 
     Get Text  body  *=  Robot Test Inproceeding
 
-    Click  //tr[td[contains(text(), 'robotdelete123')]]//button
+    Click  //tr[td[contains(text(), 'robotdelete123')]]//button[normalize-space()='Delete']
     Get Text  body  not contains  Robot Test Inproceeding
 
 At the start there is add new inproceeding button
