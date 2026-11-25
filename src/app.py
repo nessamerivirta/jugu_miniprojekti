@@ -3,9 +3,11 @@ from db_helper import reset_db
 from repositories.todo_repository import set_done
 from config import app, test_env
 from repositories.book_repository import create_book, get_books
+from repositories.article_repository import create_article, get_articles
 from repositories.inproceeding_repository import create_inproceeding, get_inproceedings
 from repositories.reference_repository import create_reference, get_references, delete_reference
 from entities.book import Book
+from entities.article import Article
 from bibtex_export import books_to_bibtex
 from entities.inproceeding import Inproceeding
 
@@ -23,6 +25,11 @@ def view_books():
     all_books = get_books()
     return render_template("books.html", books=all_books)
 
+@app.route("/view_articles", methods=["GET", "POST"])
+def view_articles():
+    all_articles = get_articles()
+    return render_template("articles.html", articles=all_articles)
+
 @app.route("/view_inproceedings", methods=["GET", "POST"])
 def view_inproceedings():
     all_inproceedings = get_inproceedings()
@@ -32,6 +39,10 @@ def view_inproceedings():
 @app.route("/new_book")
 def new_book():
     return render_template("new_book.html")
+
+@app.route("/new_article")
+def new_article():
+    return render_template("new_article.html")
 
 @app.route("/new_inproceeding")
 def new_inproceeding():
@@ -66,6 +77,39 @@ def book_creation():
     except Exception as error:
         flash(str(error))
         return  redirect("/new_book")
+
+@app.route("/create_article", methods=["POST"])
+def article_creation():
+    citation_key = request.form.get("citation_key")
+    author = request.form.get("author")
+    title = request.form.get("title")
+    journal = request.form.get("journal")
+    publishing_year = request.form.get("publishing_year")
+    volume = request.form.get("volume")
+    pages = request.form.get("pages")
+
+    if not citation_key or not author or not title or not publishing_year or not journal or not volume or not pages:
+        print("Validation failed!")
+        flash("Fill in all the fields")
+        return redirect("/new_article")
+
+    article = Article(
+        citation_key,
+        author,
+        title,
+        journal,
+        publishing_year,
+        volume,
+        pages
+    )
+
+    try:
+        # TODO: validate_article(content)
+        create_article(article)
+        return redirect("/view_references")
+    except Exception as error:
+        flash(str(error))
+        return  redirect("/new_article")
 
 @app.route("/create_inproceeding", methods=["POST"])
 def inproceeding_creation():
