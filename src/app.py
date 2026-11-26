@@ -58,13 +58,13 @@ def reference_creation():
 
     if not citation_key or not author or not title or not publishing_year:
         print("Validation failed!")
-        flash("Fill in all the required fields")
+        flash("Fill in all the fields")
         return redirect("/new_reference")
 
     if reference_type == "book":
         if not publisher:
             print("Validation failed!")
-            flash("Please provide a publisher")
+            flash("Fill in all the fields")
             return redirect("/new_reference")
 
         book = Book(
@@ -86,7 +86,7 @@ def reference_creation():
     elif reference_type == "article":
         if not journal or not volume or not pages:
             print("Validation failed!")
-            flash("Please provide journal, volume and pages")
+            flash("Fill in all the fields")
             return redirect("/new_reference")
         
         article = Article(
@@ -109,7 +109,7 @@ def reference_creation():
     elif reference_type == "inproceeding":
         if not booktitle:
             print("Validation failed!")
-            flash("Please provide a book title")
+            flash("Fill in all the fields")
             return redirect("/new_reference")
         
         inproceeding = Inproceeding(
