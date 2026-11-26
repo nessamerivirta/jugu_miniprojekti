@@ -6,7 +6,7 @@ Edit reference
 
 {% block body %}
 
-<h2>Edit reference</h2>
+<h2>Edit {{ reference.title }}</h2>
 
 {% with messages = get_flashed_messages() %}
   {% if messages %}
