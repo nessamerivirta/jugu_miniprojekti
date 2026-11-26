@@ -7,15 +7,16 @@ def create_inproceeding(inproceeding):
 
     sql = text("""
         INSERT INTO inproceedings
-        (reference_id, booktitle)
+        (reference_id, proc_year, booktitle)
         VALUES (
         (SELECT id FROM references_table WHERE citation_key =        :citation_key),
-        :booktitle
+        :proc_year, :booktitle
         )
     """)
 
     db.session.execute(sql, {
         "citation_key": inproceeding.citation_key,
+        "proc_year": inproceeding.publishing_year,
         "booktitle": inproceeding.booktitle
     })
     db.session.commit()

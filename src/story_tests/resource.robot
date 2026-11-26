@@ -21,3 +21,23 @@ Open And Configure Browser
 
 Reset Database
     Go To  ${RESET_URL}
+
+Create Book
+    [Arguments]  ${citation_key}  ${author}  ${title}  ${publishing_year}  ${publisher}
+    Go To  ${HOME_URL}/new_book
+    Fill Text  [name="citation_key"]  ${citation_key}
+    Fill Text  [name="author"]  ${author}
+    Fill Text  [name="title"]  ${title}
+    Fill Text  [name="publishing_year"]  ${publishing_year}
+    Fill Text  [name="publisher"]  ${publisher}
+    Click  button >> text=Create
+
+Create Inproceeding
+    [Arguments]  ${citation_key}  ${author}  ${title}  ${publishing_year}  ${booktitle}
+    Go To  ${HOME_URL}/new_inproceeding
+    Fill Text  [name="citation_key"]  ${citation_key}
+    Fill Text  [name="author"]  ${author}
+    Fill Text  [name="title"]  ${title}
+    Fill Text  [name="publishing_year"]  ${publishing_year}
+    Fill Text  [name="booktitle"]  ${booktitle}
+    Click  button >> text=Create

@@ -6,13 +6,7 @@ Test Setup       Reset Database
 
 *** Test Cases ***
 User can delete an inproceeding
-    Go To  ${HOME_URL}/new_inproceeding
-    Fill Text  [name="citation_key"]  robotdelete123
-    Fill Text  [name="author"]  Test Author
-    Fill Text  [name="title"]  Robot Test Inproceeding
-    Fill Text  [name="publishing_year"]  2026
-    Fill Text  [name="booktitle"]  Test Book Title
-    Click  button >> text=Create
+    Create Inproceeding  robotdelete123  Test Author  Robot Test Inproceeding  2026  Test Book Title
 
     Get Text  body  *=  Robot Test Inproceeding
 
@@ -24,12 +18,5 @@ At the start there is add new inproceeding button
     Get Text  body  *=  Add new inproceeding
 
 After adding an inproceeding there is one inproceeding on the list
-    Go To  ${HOME_URL}
-    Click    text=Add new inproceeding
-    Fill Text  [name="citation_key"]  Test1
-    Fill Text  [name="author"]  Tester
-    Fill Text  [name="title"]  Add inproceeding
-    Fill Text  [name="publishing_year"]  2026
-    Fill Text  [name="booktitle"]  Jess in paradise
-    Click  button >> text=Create
+    Create Inproceeding  Test1  Tester  Add inproceeding  2026  Jess in paradise
     Get Text  body  *=  Number of references: 1
