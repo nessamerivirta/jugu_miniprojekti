@@ -24,9 +24,13 @@ def get_references():
         SELECT references_table.id, references_table.type,
                references_table.citation_key, references_table.title,
                references_table.author, references_table.publishing_year,
-               books.publisher
+               books.publisher,
+               articles.journal, articles.volume, articles.pages,
+               inproceedings.proc_year, inproceedings.booktitle
         FROM references_table
         LEFT JOIN books ON books.reference_id = references_table.id
+        LEFT JOIN articles ON articles.reference_id = references_table.id
+        LEFT JOIN inproceedings ON inproceedings.reference_id = references_table.id
         ORDER BY references_table.author, references_table.publishing_year
     """)
     return db.session.execute(sql).fetchall()
@@ -34,9 +38,13 @@ def get_references():
 def get_reference(reference_id):
     sql = text("""
         SELECT references_table.id, type, citation_key, title, author,
-               publishing_year, books.publisher
+               publishing_year, books.publisher,
+               articles.journal, articles.volume, articles.pages,
+               inproceedings.proc_year, inproceedings.booktitle
         FROM references_table
         LEFT JOIN books ON books.reference_id = references_table.id
+        LEFT JOIN articles ON articles.reference_id = references_table.id
+        LEFT JOIN inproceedings ON inproceedings.reference_id = references_table.id
         WHERE references_table.id = :reference_id
         """)
     return db.session.execute(sql, {"reference_id": reference_id}).fetchone()
@@ -71,6 +79,32 @@ def update_reference(reference_id, reference, publisher=None):
                 SET publisher = :publisher
                 WHERE reference_id = :reference_id
             """), {"reference_id": reference_id, "publisher": publisher})
+
+        if "journal" in reference:
+            db.session.execute(text("""
+                UPDATE articles
+                SET journal = :journal,
+                    volume = :volume,
+                    pages = :pages
+                WHERE reference_id = :reference_id
+            """), {
+                "reference_id": reference_id,
+                "journal": reference["journal"],
+                "volume": reference["volume"],
+                "pages": reference["pages"],
+            })
+
+        if "proc_year" in reference:
+            db.session.execute(text("""
+                UPDATE inproceedings
+                SET proc_year = :proc_year,
+                    booktitle = :booktitle
+                WHERE reference_id = :reference_id
+            """), {
+                "reference_id": reference_id,
+                "proc_year": reference["proc_year"],
+                "booktitle": reference["booktitle"],
+            })
 
         db.session.commit()
     except IntegrityError:

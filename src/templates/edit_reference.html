@@ -45,6 +45,30 @@ Edit reference
     <br>
   {% endif %}
 
+  {% if reference.type == "article" %}
+    <label for="journal">Journal:</label>
+    <input type="text" id="journal" name="journal" value="{{ request.form.get('journal', reference.journal or '') }}" required>
+    <br>
+
+    <label for="volume">Volume:</label>
+    <input type="text" id="volume" name="volume" value="{{ request.form.get('volume', reference.volume or '') }}" required>
+    <br>
+
+    <label for="pages">Pages:</label>
+    <input type="text" id="pages" name="pages" value="{{ request.form.get('pages', reference.pages or '') }}" required>
+    <br>
+  {% endif %}
+
+  {% if reference.type == "inproceeding" %}
+    <label for="proc_year">Proceedings year:</label>
+    <input type="number" id="proc_year" name="proc_year" value="{{ request.form.get('proc_year', reference.proc_year or '') }}">
+    <br>
+
+    <label for="booktitle">Book title:</label>
+    <input type="text" id="booktitle" name="booktitle" value="{{ request.form.get('booktitle', reference.booktitle or '') }}" required>
+    <br>
+  {% endif %}
+
   <button type="submit">Save changes</button>
 </form>
 <a href="/view_references">Cancel</a>
