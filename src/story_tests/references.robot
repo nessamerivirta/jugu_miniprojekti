@@ -9,13 +9,14 @@ At the start there are no references
     Go To  ${HOME_URL}
     Get Text  body  *=  No references added yet.
 
-At the start there is add new book button
+At the start there is add new reference button
     Go To  ${HOME_URL}
-    Get Text  body  *=  Add new book
+    Get Text  body  *=  Add new reference
 
 After adding a book there is one book on the list
     Go To  ${HOME_URL}
-    Click    text=Add new book
+    Click    text=Add new reference
+    Select Options By  [name="type"]   value  book
     Fill Text  [name="citation_key"]  TestAddBook
     Fill Text  [name="author"]  Tester
     Fill Text  [name="title"]  Add book
@@ -26,7 +27,8 @@ After adding a book there is one book on the list
 
 After adding a book its information is displayed
     Go To  ${HOME_URL}
-    Click  text=Add new book
+    Click  text=Add new reference
+    Select Options By  [name="type"]   value  book
     Fill Text  [name="citation_key"]  TestDisplayInformation
     Fill Text  [name="author"]  Tester
     Fill Text  [name="title"]  Add book
@@ -40,7 +42,8 @@ After adding a book its information is displayed
 
 After adding two books there are two references
     Go To    ${HOME_URL}
-    Click    text=Add new book
+    Click    text=Add new reference
+    Select Options By  [name="type"]   value  book
     Fill Text    [name="citation_key"]    TestTwoBooks
     Fill Text    [name="author"]    Tester
     Fill Text    [name="title"]    First book
@@ -49,7 +52,8 @@ After adding two books there are two references
     Click    button >> text=Create
 
     Go To    ${HOME_URL}
-    Click    text=Add new book
+    Click    text=Add new reference
+    Select Options By  [name="type"]   value  book
     Fill Text    [name="citation_key"]    Test2
     Fill Text    [name="author"]    Tester2
     Fill Text    [name="title"]    Second book
@@ -58,14 +62,15 @@ After adding two books there are two references
     Click    button >> text=Create
     Get Text    body    *=    Number of references: 2
 
-Add new book link opens the correct page
+Add new reference link opens the correct page
     Go To    ${HOME_URL}
-    Click    text=Add new book
-    Get Url    ==    ${HOME_URL}/new_book
+    Click    text=Add new reference
+    Get Url    ==    ${HOME_URL}/new_reference
 
 User can open edit page
     Go To  ${HOME_URL}
-    Click  text=Add new book
+    Click  text=Add new reference
+    Select Options By  [name="type"]   value  book
     Fill Text  [name="citation_key"]  robotedit
     Fill Text  [name="author"]  Test Author
     Fill Text  [name="title"]  Robot Test Book
@@ -87,7 +92,8 @@ User can open edit page
 
 User can edit reference
     Go To  ${HOME_URL}
-    Click  text=Add new book
+    Click  text=Add new reference
+    Select Options By  [name="type"]   value  book
     Fill Text  [name="citation_key"]  roboteditbefore
     Fill Text  [name="author"]  Original Author
     Fill Text  [name="title"]  Original Book Title
@@ -114,7 +120,8 @@ User can edit reference
 
 User can delete a reference
     Go To  ${HOME_URL}
-    Click  text=Add new book
+    Click  text=Add new reference
+    Select Options By  [name="type"]   value  book
     Fill Text  [name="citation_key"]  robotdelete123
     Fill Text  [name="author"]  Test Author
     Fill Text  [name="title"]  Robot Test Book

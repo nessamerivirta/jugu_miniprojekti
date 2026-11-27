@@ -106,7 +106,7 @@ def reference_creation():
             flash(str(error))
             return  redirect("/new_reference")
 
-    elif reference_type == "inproceeding":
+    elif reference_type == "inproceedings":
         if not booktitle:
             print("Validation failed!")
             flash("Fill in all the fields")
@@ -116,10 +116,8 @@ def reference_creation():
             citation_key,
             author,
             title,
-            journal,
             publishing_year,
-            volume,
-            pages
+            booktitle
         )
         try:
             # TODO: validate_inproceeding(content)
