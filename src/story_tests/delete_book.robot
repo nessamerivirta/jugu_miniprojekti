@@ -5,7 +5,8 @@ Suite Teardown   Close Browser
 
 *** Test Cases ***
 User can delete a book
-    Go To  ${HOME_URL}/new_book
+    Go To  ${HOME_URL}/new_reference
+    Select Options By  [name="type"]   value  book
     Fill Text  [name="citation_key"]  robotdelete123
     Fill Text  [name="author"]  Test Author
     Fill Text  [name="title"]  Robot Test Book
