@@ -4,7 +4,7 @@ from repositories.todo_repository import set_done
 from config import app, test_env
 from repositories.book_repository import create_book, get_books
 from repositories.reference_repository import (
-    create_reference, get_references, get_reference, update_reference, delete_reference
+    create_reference, get_references, get_reference, update_reference, delete_reference, get_update_mainview
 )
 from sqlalchemy.exc import IntegrityError
 from repositories.article_repository import create_article, get_articles
@@ -204,6 +204,16 @@ def export_bibtex():
             "Content-Disposition": "attachment; filename=references.bib"
         }
     )
+
+@app.route("/update_mainview", methods=["POST"])
+def update_mainview():
+    json_data = request.get_json()
+    print("Received JSON data:", json_data)  # Debugging line
+    # Implementation for updating the main view
+    # return jsonify({ "message": "Main view updated successfully" }) 
+    all_references = get_update_mainview(json_data)
+    return render_template("references.html", references=all_references)
+
 
 # testausta varten oleva reitti
 if test_env:

@@ -9,7 +9,7 @@ def create_inproceeding(inproceeding):
         INSERT INTO inproceedings
         (reference_id, booktitle)
         VALUES (
-        (SELECT id FROM references_table WHERE citation_key =        :citation_key),
+        (SELECT id FROM references_table WHERE citation_key = :citation_key),
         :booktitle
         )
     """)

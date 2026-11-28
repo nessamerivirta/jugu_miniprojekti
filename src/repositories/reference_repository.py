@@ -86,3 +86,29 @@ def delete_reference(reference_id):
     """)
     db.session.execute(sql, {"reference_id": reference_id})
     db.session.commit()
+
+def get_update_mainview(json_data):
+    author_filter = json_data.get("author", {})
+    title_filter = json_data.get("title", {})
+    year_filter = json_data.get("publishing_year", {})
+
+    sql = text("""
+        SELECT r.id, r.type,
+               r.citation_key, r.title,
+               r.author, r.publishing_year
+        FROM references_table as r
+        WHERE
+            (:filter_author = 0 OR r.author LIKE :author) AND
+            (:filter_title = 0 OR r.title LIKE :title) AND
+            (:filter_year = 0 OR r.publishing_year = :publishing_year)
+        ORDER BY r.author, r.publishing_year
+        """)
+
+    return db.session.execute(sql, {
+        "filter_author": author_filter.get("enabled", False),
+        "filter_title": title_filter.get("enabled", False),
+        "filter_year": year_filter.get("enabled", False),
+        "author": f"%{author_filter.get('value', '')}%",
+        "title": f"%{title_filter.get('value', '')}%",
+        "publishing_year": year_filter.get("value", "")
+    }).fetchall()

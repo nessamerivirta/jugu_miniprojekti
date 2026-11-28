@@ -29,6 +29,5 @@ CREATE TABLE inproceedings (
   id INTEGER PRIMARY KEY,
   reference_id INTEGER NOT NULL UNIQUE
     REFERENCES references_table(id) ON DELETE CASCADE,
-  proc_year INTEGER,
   booktitle TEXT
 );

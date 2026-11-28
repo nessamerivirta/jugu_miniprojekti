@@ -12,8 +12,33 @@ References
 <head>
   <meta charset="UTF-8">
   <title>General references</title>
+  <style>
+    .hide {
+      display: none;
+    }
+  </style>
+
+  <script type="text/javascript" src="{{ url_for('static', filename='jsscripts/togglefilters.js') }}" defer></script>
+
 </head>
 <body>
+
+  <div id="divtoggle">
+    <input type="button" id="btntoggle" name="btntoggle" value="Filters" />
+    <input type="button" id="btnupdate" name="btnupdate" value="Update View" />
+  </div>
+  <div id="divfilename" hidden="true">
+    <textarea id="txtfilename" name="txtfilename">filters.html</textarea>
+  </div>
+  <div id="diverror">
+    <textarea id="txterror" name="txterror">
+    </textarea>
+  </div>
+
+  <div id="divfilter">
+  </div>
+
+  <div id="reference-results">
 
   {% if references %}
     <p>Number of references: {{ references|length }}</p>
@@ -50,9 +75,11 @@ References
         </tr>
       {% endfor %}
     </table>
+
   {% else %}
     <p>No references added yet.</p>
   {% endif %}
+  </div>
   <a href="/new_book">Add new book</a> <!-- TODO: new_reference HTML -->
   <p></p>
   <a href="/export_bibtex">Export BibTeX</a>
@@ -60,6 +87,7 @@ References
   <a href="/new_article">Add new article</a>
   <p></p>
   <a href="/new_inproceeding">Add new inproceeding</a>
+
 </body>
 </html>
 
