@@ -156,15 +156,9 @@ def edit_reference(reference_id):
             })
 
         if reference.type == "inproceeding":
-            proc_year = request.form.get("proc_year", "").strip()
             booktitle = request.form.get("booktitle", "").strip()
             if not booktitle:
                 flash("Book title is required.")
-                return render_template("edit_reference.html", reference=reference), 400
-            try:
-                updated_reference["proc_year"] = int(proc_year) if proc_year else None
-            except ValueError:
-                flash("Proceedings year must be a number.")
                 return render_template("edit_reference.html", reference=reference), 400
             updated_reference["booktitle"] = booktitle
 

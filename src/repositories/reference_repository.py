@@ -26,7 +26,7 @@ def get_references():
                references_table.author, references_table.publishing_year,
                books.publisher,
                articles.journal, articles.volume, articles.pages,
-               inproceedings.proc_year, inproceedings.booktitle
+               inproceedings.booktitle
         FROM references_table
         LEFT JOIN books ON books.reference_id = references_table.id
         LEFT JOIN articles ON articles.reference_id = references_table.id
@@ -40,7 +40,7 @@ def get_reference(reference_id):
         SELECT references_table.id, type, citation_key, title, author,
                publishing_year, books.publisher,
                articles.journal, articles.volume, articles.pages,
-               inproceedings.proc_year, inproceedings.booktitle
+               inproceedings.booktitle
         FROM references_table
         LEFT JOIN books ON books.reference_id = references_table.id
         LEFT JOIN articles ON articles.reference_id = references_table.id
@@ -94,15 +94,13 @@ def update_reference(reference_id, reference, publisher=None):
                 "pages": reference["pages"],
             })
 
-        if "proc_year" in reference:
+        if "booktitle" in reference:
             db.session.execute(text("""
                 UPDATE inproceedings
-                SET proc_year = :proc_year,
-                    booktitle = :booktitle
+                SET booktitle = :booktitle
                 WHERE reference_id = :reference_id
             """), {
                 "reference_id": reference_id,
-                "proc_year": reference["proc_year"],
                 "booktitle": reference["booktitle"],
             })
 
