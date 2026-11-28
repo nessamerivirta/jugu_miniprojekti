@@ -6,7 +6,7 @@ Edit reference
 
 {% block body %}
 
-<h2>Edit reference</h2>
+<h2>Edit {{ reference.title }}</h2>
 
 {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -42,6 +42,26 @@ Edit reference
   {% if reference.publisher is not none %}
     <label for="publisher">Publisher:</label>
     <input type="text" id="publisher" name="publisher" value="{{ request.form.get('publisher', reference.publisher) }}" required>
+    <br>
+  {% endif %}
+
+  {% if reference.type == "article" %}
+    <label for="journal">Journal:</label>
+    <input type="text" id="journal" name="journal" value="{{ request.form.get('journal', reference.journal or '') }}" required>
+    <br>
+
+    <label for="volume">Volume:</label>
+    <input type="text" id="volume" name="volume" value="{{ request.form.get('volume', reference.volume or '') }}" required>
+    <br>
+
+    <label for="pages">Pages:</label>
+    <input type="text" id="pages" name="pages" value="{{ request.form.get('pages', reference.pages or '') }}" required>
+    <br>
+  {% endif %}
+
+  {% if reference.type == "inproceeding" %}
+    <label for="booktitle">Book title:</label>
+    <input type="text" id="booktitle" name="booktitle" value="{{ request.form.get('booktitle', reference.booktitle or '') }}" required>
     <br>
   {% endif %}
 

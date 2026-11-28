@@ -6,28 +6,12 @@ Test Setup       Reset Database
 
 *** Test Cases ***
 User can delete an inproceeding
-    Go To  ${HOME_URL}/new_reference
-    Select Options By  [name="type"]   value  inproceedings
-    Fill Text  [name="citation_key"]  robotdelete123
-    Fill Text  [name="author"]  Test Author
-    Fill Text  [name="title"]  Robot Test Inproceeding
-    Fill Text  [name="publishing_year"]  2026
-    Fill Text  [name="booktitle"]  Test Book Title
-    Click  button >> text=Create
-
+    Create Inproceeding  robotdelete123  Test Author  Robot Test Inproceeding  2026  Test Book Title
     Get Text  body  *=  Robot Test Inproceeding
 
-    Click  //tr[td[contains(text(), 'robotdelete123')]]//button[normalize-space()='Delete']
+    Delete Reference  robotdelete123
     Get Text  body  not contains  Robot Test Inproceeding
 
 After adding an inproceeding there is one inproceeding on the list
-    Go To  ${HOME_URL}
-    Click    text=Add new reference
-    Select Options By  [name="type"]  value  inproceedings
-    Fill Text  [name="citation_key"]  Test1
-    Fill Text  [name="author"]  Tester
-    Fill Text  [name="title"]  Add inproceeding
-    Fill Text  [name="publishing_year"]  2026
-    Fill Text  [name="booktitle"]  Jess in paradise
-    Click  button >> text=Create
+    Create Inproceeding  Test1  Tester  Add inproceeding  2026  Jess in paradise
     Get Text  body  *=  Number of references: 1

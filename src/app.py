@@ -142,6 +142,26 @@ def edit_reference(reference_id):
         publishing_year = request.form.get("publishing_year", "").strip()
         publisher = request.form.get("publisher", "").strip()
 
+        if reference.type == "article":
+            journal = request.form.get("journal", "").strip()
+            volume = request.form.get("volume", "").strip()
+            pages = request.form.get("pages", "").strip()
+            if not journal or not volume or not pages:
+                flash("Journal, volume, and pages are required.")
+                return render_template("edit_reference.html", reference=reference), 400
+            updated_reference.update({
+                "journal": journal,
+                "volume": volume,
+                "pages": pages,
+            })
+
+        if reference.type == "inproceeding":
+            booktitle = request.form.get("booktitle", "").strip()
+            if not booktitle:
+                flash("Book title is required.")
+                return render_template("edit_reference.html", reference=reference), 400
+            updated_reference["booktitle"] = booktitle
+
         if not updated_reference["type"] or not updated_reference["citation_key"] or not updated_reference["title"]:
             flash("Type, citation key, and title are required.")
             return render_template("edit_reference.html", reference=reference), 400

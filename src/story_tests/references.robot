@@ -14,52 +14,19 @@ At the start there is add new reference button
     Get Text  body  *=  Add new reference
 
 After adding a book there is one book on the list
-    Go To  ${HOME_URL}
-    Click    text=Add new reference
-    Select Options By  [name="type"]   value  book
-    Fill Text  [name="citation_key"]  TestAddBook
-    Fill Text  [name="author"]  Tester
-    Fill Text  [name="title"]  Add book
-    Fill Text  [name="publishing_year"]  2026
-    Fill Text  [name="publisher"]  Jess
-    Click  button >> text=Create
+    Create Book  TestAddBook  Tester  Add book  2026  Jess
     Get Text  body  *=  Number of references: 1
 
 After adding a book its information is displayed
-    Go To  ${HOME_URL}
-    Click  text=Add new reference
-    Select Options By  [name="type"]   value  book
-    Fill Text  [name="citation_key"]  TestDisplayInformation
-    Fill Text  [name="author"]  Tester
-    Fill Text  [name="title"]  Add book
-    Fill Text  [name="publishing_year"]  2026
-    Fill Text  [name="publisher"]  Jess
-    Click    button >> text=Create
+    Create Book  TestDisplayInformation  Tester  Add book  2026  Jess
     Get Text  body  *=  TestDisplayInformation
     Get Text  body  *=  Tester
     Get Text  body  *=  Add book
-    Get Text  body  *=  2026    
+    Get Text  body  *=  2026
 
 After adding two books there are two references
-    Go To    ${HOME_URL}
-    Click    text=Add new reference
-    Select Options By  [name="type"]   value  book
-    Fill Text    [name="citation_key"]    TestTwoBooks
-    Fill Text    [name="author"]    Tester
-    Fill Text    [name="title"]    First book
-    Fill Text    [name="publishing_year"]    2026
-    Fill Text    [name="publisher"]    Jess
-    Click    button >> text=Create
-
-    Go To    ${HOME_URL}
-    Click    text=Add new reference
-    Select Options By  [name="type"]   value  book
-    Fill Text    [name="citation_key"]    Test2
-    Fill Text    [name="author"]    Tester2
-    Fill Text    [name="title"]    Second book
-    Fill Text    [name="publishing_year"]    2025
-    Fill Text    [name="publisher"]    Jess
-    Click    button >> text=Create
+    Create Book  TestTwoBooks  Tester  First book  2026  Jess
+    Create Book  Test2  Tester2  Second book  2025  Jess
     Get Text    body    *=    Number of references: 2
 
 Add new reference link opens the correct page
@@ -68,22 +35,14 @@ Add new reference link opens the correct page
     Get Url    ==    ${HOME_URL}/new_reference
 
 User can open edit page
-    Go To  ${HOME_URL}
-    Click  text=Add new reference
-    Select Options By  [name="type"]   value  book
-    Fill Text  [name="citation_key"]  robotedit
-    Fill Text  [name="author"]  Test Author
-    Fill Text  [name="title"]  Robot Test Book
-    Fill Text  [name="publishing_year"]  2026
-    Fill Text  [name="publisher"]  Test Publisher
-    Click  button >> text=Create
+    Create Book  robotedit  Test Author  Robot Test Book  2026  Test Publisher
 
     Get Text  body  *=  Number of references: 1
     Get Text  body  *=  Robot Test Book
 
     Click    button >> text=Edit
     Get Url  *=  ${HOME_URL}/edit_reference/1
-    Get Text  body  *=  Edit reference
+    Get Text  body  *=  Edit Robot Test Book
     Get Attribute  [name="citation_key"]  value  ==  robotedit
     Get Attribute  [name="author"]  value  ==  Test Author
     Get Attribute  [name="title"]  value  ==  Robot Test Book
@@ -91,15 +50,7 @@ User can open edit page
     Get Attribute  [name="publisher"]  value  ==  Test Publisher
 
 User can edit reference
-    Go To  ${HOME_URL}
-    Click  text=Add new reference
-    Select Options By  [name="type"]   value  book
-    Fill Text  [name="citation_key"]  roboteditbefore
-    Fill Text  [name="author"]  Original Author
-    Fill Text  [name="title"]  Original Book Title
-    Fill Text  [name="publishing_year"]  2020
-    Fill Text  [name="publisher"]  Original Publisher
-    Click  button >> text=Create
+    Create Book  roboteditbefore  Original Author  Original Book Title  2020  Original Publisher
 
     Click  button >> text=Edit
     Fill Text  [name="citation_key"]  roboteditafter
@@ -114,25 +65,67 @@ User can edit reference
     Get Text  body  *=  Updated Author
     Get Text  body  *=  Updated Book Title
     Get Text  body  *=  2024
-    Get Text  body  *=  Updated Publisher
+    Click  button >> text=Edit
+    Get Attribute  [name="publisher"]  value  ==  Updated Publisher
     Get Text  body  not contains  roboteditbefore
     Get Text  body  not contains  Original Book Title
 
+User can edit article reference
+    Create Article  robotarticle  Test Author  Original Article Title  2026  Original Journal  Original Volume  Original Pages
+
+    Click  button >> text=Edit
+    Fill Text  [name="citation_key"]  roboteditafter
+    Fill Text  [name="author"]  Updated Author
+    Fill Text  [name="title"]  Updated Article Title
+    Fill Text  [name="publishing_year"]  2024
+    Fill Text  [name="journal"]  Updated Journal
+    Fill Text  [name="volume"]  Updated Volume
+    Fill Text  [name="pages"]  Updated Pages
+    Click  button >> text=Save changes
+
+    Get Url  ==  ${HOME_URL}/view_references
+    Get Text  body  *=  roboteditafter
+    Get Text  body  *=  Updated Author
+    Get Text  body  *=  Updated Article Title
+    Get Text  body  *=  2024
+    Click  button >> text=Edit
+    Get Attribute  [name="journal"]  value  ==  Updated Journal
+    Get Attribute  [name="volume"]  value  ==  Updated Volume
+    Get Attribute  [name="pages"]  value  ==  Updated Pages
+    Get Text  body  not contains  robotarticle
+    Get Text  body  not contains  Original Article Title
+
+User can edit inproceeding reference
+    Create Inproceeding  roboteditproceeding  Original Author  Original Proceedings Title  2020  Original Book Title
+
+    Click  button >> text=Edit
+    Get Attribute  [name="booktitle"]  value  ==  Original Book Title
+    Fill Text  [name="citation_key"]  roboteditedproceeding
+    Fill Text  [name="author"]  Updated Author
+    Fill Text  [name="title"]  Updated Proceedings Title
+    Fill Text  [name="publishing_year"]  2024
+    Fill Text  [name="booktitle"]  Updated Book Title
+    Click  button >> text=Save changes
+
+    Get Url  ==  ${HOME_URL}/view_references
+    Get Text  body  *=  roboteditedproceeding
+    Get Text  body  *=  Updated Author
+    Get Text  body  *=  Updated Proceedings Title
+    Get Text  body  *=  2024
+    Click  button >> text=Edit
+    Get Attribute  [name="booktitle"]  value  ==  Updated Book Title
+    Get Text  body  not contains  roboteditproceeding
+    Get Text  body  not contains  Original Proceedings Title
+    Get Text  body  not contains  Original Book Title
+
+
 User can delete a reference
-    Go To  ${HOME_URL}
-    Click  text=Add new reference
-    Select Options By  [name="type"]   value  book
-    Fill Text  [name="citation_key"]  robotdelete123
-    Fill Text  [name="author"]  Test Author
-    Fill Text  [name="title"]  Robot Test Book
-    Fill Text  [name="publishing_year"]  2026
-    Fill Text  [name="publisher"]  Test Publisher
-    Click  button >> text=Create
+    Create Book  robotdelete123  Test Author  Robot Test Book  2026  Test Publisher
 
     Get Text  body  *=  Number of references: 1
     Get Text  body  *=  Robot Test Book
 
-    Click  //tr[td[contains(text(), 'robotdelete123')]]//button[normalize-space()='Delete']
+    Delete Reference  robotdelete123
 
     Get Text  body  not contains  Robot Test Book
     Get Text  body  *=  No references added yet.
