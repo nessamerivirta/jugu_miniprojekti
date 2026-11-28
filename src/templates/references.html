@@ -25,12 +25,6 @@ References
         <th>Author</th>
         <th>Title</th>
         <th>Publishing year</th>
-        <th>Publisher</th>
-        <th>Journal</th>
-        <th>Volume</th>
-        <th>Pages</th>
-        <th>Proceedings year</th>
-        <th>Book title</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -41,12 +35,6 @@ References
           <td>{{ reference.author }}</td>
           <td>{{ reference.title }}</td>
           <td>{{ reference.publishing_year }}</td>
-          <td>{{ reference.publisher }}</td>
-          <td>{{ reference.journal }}</td>
-          <td>{{ reference.volume }}</td>
-          <td>{{ reference.pages }}</td>
-          <td>{{ reference.proc_year }}</td>
-          <td>{{ reference.booktitle }}</td>
           <td>
             <form action="/edit_reference/{{ reference.id }}" method="GET">
               <button type="submit">Edit</button>
@@ -63,13 +51,9 @@ References
   {% else %}
     <p>No references added yet.</p>
   {% endif %}
-  <a href="/new_book">Add new book</a> <!-- TODO: new_reference HTML -->
+  <a href="/new_reference">Add new reference</a>
   <p></p>
   <a href="/export_bibtex">Export BibTeX</a>
-  <p></p>
-  <a href="/new_article">Add new article</a>
-  <p></p>
-  <a href="/new_inproceeding">Add new inproceeding</a>
 </body>
 </html>
 

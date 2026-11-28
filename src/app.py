@@ -39,47 +39,93 @@ def view_inproceedings():
     return render_template("inproceedings.html", inproceedings=all_inproceedings)
 
 
-@app.route("/new_book")
-def new_book():
-    return render_template("new_book.html")
+@app.route("/new_reference")
+def new_reference():
+    return render_template("new_reference.html")
 
-@app.route("/new_article")
-def new_article():
-    return render_template("new_article.html")
-
-@app.route("/new_inproceeding")
-def new_inproceeding():
-    return render_template("new_inproceeding.html")
-
-
-@app.route("/create_book", methods=["POST"])
-def book_creation():
+@app.route("/create_reference", methods=["POST"])
+def reference_creation():
+    reference_type = request.form.get("type")
     citation_key = request.form.get("citation_key")
     author = request.form.get("author")
     title = request.form.get("title")
     publishing_year = request.form.get("publishing_year")
     publisher = request.form.get("publisher")
+    journal = request.form.get("journal")
+    volume = request.form.get("volume")
+    pages = request.form.get("pages")
+    booktitle = request.form.get("booktitle")
 
-    if not citation_key or not author or not title or not publishing_year or not publisher:
+    if not citation_key or not author or not title or not publishing_year:
         print("Validation failed!")
         flash("Fill in all the fields")
-        return redirect("/new_book")
+        return redirect("/new_reference")
 
-    book = Book(
-        citation_key,
-        author,
-        title,
-        publishing_year,
-        publisher
-    )
+    if reference_type == "book":
+        if not publisher:
+            print("Validation failed!")
+            flash("Fill in all the fields")
+            return redirect("/new_reference")
 
-    try:
-        # TODO: validate_book(content)
-        create_book(book)
-        return redirect("/view_references")
-    except Exception as error:
-        flash(str(error))
-        return  redirect("/new_book")
+        book = Book(
+            citation_key,
+            author,
+            title,
+            publishing_year,
+            publisher
+        )
+    
+        try:
+            # TODO: validate_book(content)
+            create_book(book)
+            return redirect("/view_references")
+        except Exception as error:
+            flash(str(error))
+            return  redirect("/new_reference")
+
+    elif reference_type == "article":
+        if not journal or not volume or not pages:
+            print("Validation failed!")
+            flash("Fill in all the fields")
+            return redirect("/new_reference")
+        
+        article = Article(
+            citation_key,
+            author,
+            title,
+            journal,
+            publishing_year,
+            volume,
+            pages
+        )
+        try:
+            # TODO: validate_article(content)
+            create_article(article)
+            return redirect("/view_references")
+        except Exception as error:
+            flash(str(error))
+            return  redirect("/new_reference")
+
+    elif reference_type == "inproceedings":
+        if not booktitle:
+            print("Validation failed!")
+            flash("Fill in all the fields")
+            return redirect("/new_reference")
+        
+        inproceeding = Inproceeding(
+            citation_key,
+            author,
+            title,
+            publishing_year,
+            booktitle
+        )
+        try:
+            # TODO: validate_inproceeding(content)
+            create_inproceeding(inproceeding)
+            return redirect("/view_references")
+        except Exception as error:
+            flash(str(error))
+            return  redirect("/new_reference")
 
 @app.route("/edit_reference/<int:reference_id>", methods=["GET", "POST"])
 def edit_reference(reference_id):
@@ -150,68 +196,6 @@ def edit_reference(reference_id):
         return redirect("/view_references")
 
     return render_template("edit_reference.html", reference=reference)
-      
-@app.route("/create_article", methods=["POST"])
-def article_creation():
-    citation_key = request.form.get("citation_key")
-    author = request.form.get("author")
-    title = request.form.get("title")
-    journal = request.form.get("journal")
-    publishing_year = request.form.get("publishing_year")
-    volume = request.form.get("volume")
-    pages = request.form.get("pages")
-
-    if not citation_key or not author or not title or not publishing_year or not journal or not volume or not pages:
-        print("Validation failed!")
-        flash("Fill in all the fields")
-        return redirect("/new_article")
-
-    article = Article(
-        citation_key,
-        author,
-        title,
-        journal,
-        publishing_year,
-        volume,
-        pages
-    )
-
-    try:
-        # TODO: validate_article(content)
-        create_article(article)
-        return redirect("/view_references")
-    except Exception as error:
-        flash(str(error))
-        return  redirect("/new_article")
-
-@app.route("/create_inproceeding", methods=["POST"])
-def inproceeding_creation():
-    citation_key = request.form.get("citation_key")
-    author = request.form.get("author")
-    title = request.form.get("title")
-    publishing_year = request.form.get("publishing_year")
-    booktitle = request.form.get("booktitle")
-
-    if not citation_key or not author or not title or not publishing_year or not booktitle:
-        print("Validation failed!")
-        flash("Fill in all the fields")
-        return redirect("/new_inproceeding")
-
-    inproceeding = Inproceeding(
-        citation_key,
-        author,
-        title,
-        publishing_year,
-        booktitle
-    )
-
-    try:
-        # TODO: validate_book(content)
-        create_inproceeding(inproceeding)
-        return redirect("/view_references")
-    except Exception as errorproc:
-        flash(str(errorproc))
-        return  redirect("/new_inproceeding")
     
 @app.route("/delete_reference/<int:reference_id>", methods=["POST"])
 def delete_reference_route(reference_id):
